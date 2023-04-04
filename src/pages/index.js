@@ -21,6 +21,11 @@ function Status({task, onStatusChange}){
     return (
       <input type="checkbox" checked={task.status} onChange={onStatusChange}/>
     )}
+  
+function Edit({edit, onEditChange}){
+    return (
+        <input type="text" value={edit} onChange={onEditChange}/>
+    )}
 
 
 export default function App(){
@@ -40,6 +45,11 @@ export default function App(){
     const handleStatusClick = (id) => {
         setTasks(tasks.map((task) => task.id === id ? {...task, status: !task.status} : task));
     }
+
+    const handleEditClick = (id) => {
+        setTasks(tasks.map((task) => task.id === id ? {...task, name: task.name} : task));
+    }
+
 
 
     return (
@@ -63,7 +73,10 @@ export default function App(){
                     <td>
                       <Status task={task} onStatusChange={() => handleStatusClick(task.id)}/>
                     </td>
-                    <td>{task.name}</td>
+                    <td>
+                      <input type="text" placeholder="Enter task name..." edit={task.name} onChange={(e) => handleEditClick(e.target.value)} style={
+                        task.status ? {textDecoration: "line-through"} : {textDecoration: "none"}}/>
+                    </td>
                     <td>
                       <Delete remove={handleDeleteClick} onDeleteClick={() => handleDeleteClick(task.id)}/>
                     </td>
